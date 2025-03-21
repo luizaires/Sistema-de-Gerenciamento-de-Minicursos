@@ -23,7 +23,7 @@ public class Inscricao {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario inscrito;
+    private Usuario usuario;
 
     @Column(name = "data_inscricao", nullable = false)
     private LocalDateTime dataInscricao;

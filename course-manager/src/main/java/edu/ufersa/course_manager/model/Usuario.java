@@ -30,7 +30,7 @@ public class Usuario implements UserDetails {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String usuario;
+    private String username;
 
     @Column(nullable = false)
     private String senha;
@@ -54,15 +54,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return usuario;
-    }
-
-    public void setSenha(String encode) {
-
-    }
-
-    public CharSequence getSenha() {
-        return senha;
+        return username;
     }
 
     public enum Tipo implements GrantedAuthority {
