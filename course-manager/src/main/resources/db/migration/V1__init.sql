@@ -3,7 +3,7 @@ CREATE TABLE usuario (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    usuario VARCHAR(50) NOT NULL UNIQUE,
+    username VARCHAR(50) NOT NULL UNIQUE,
     senha VARCHAR(50) NOT NULL,
     tipo VARCHAR(20) NOT NULL
 );
@@ -36,19 +36,19 @@ CREATE TABLE inscricao (
 );
 
 -- Inserindo Admin User
-INSERT INTO usuario (nome, email, usuario, senha, tipo)
+INSERT INTO usuario (nome, email, username, senha, tipo)
 VALUES ('admin', 'admin@gmail.com', 'Administrator', 'admin123', 'ADMIN');
 
 -- Inserindo dados de exemplo
-INSERT INTO usuario (nome, email, usuario, senha, tipo)
+INSERT INTO usuario (nome, email, username, senha, tipo)
 VALUES
 ('Gustavo Alves Mendes', 'gustavoamendes@hotmail.com', 'gustavo_mendes', 'gustavo123', 'ALUNO'),
 ('Wiliane da Silva Lima', 'wilyanelima17@outlook.com', 'wilianelima', 'wiliane123', 'ALUNO'),
 ('Ruan Pabllo Barbosa Claudino', 'ruanpabllobc@gmail.com', 'ruanpabllobc', 'ruanpabllo123', 'ALUNO'),
 ('Huliane Medeiros da Silva', 'huliane@ufersa.edu.br', 'huliane', 'huliane123', 'PROFESSOR');
 
-INSERT INTO minicurso (titulo, descricao, instrutor_id, carga_horaria, vagas, data_inicio, data_fim)
+INSERT INTO minicurso (titulo, descricao, instrutor_id, carga_horaria, vagas, status, data_inicio, data_fim)
 VALUES
-('Introdução a Robótica', 'Aprenda a construir robôs, usando arduino', 2, 10, 20, '2025-04-15', '2025-04-16'),
-('Desenvolvimento Web com React', 'Crie aplicações web modernas utilizando a biblioteca React e todo seu ecossistema.', 3, 20, 25, '2025-05-01', '2025-05-03'),
-('Machine Learning para Iniciantes', 'Introdução aos conceitos fundamentais de aprendizado de máquina com Python e scikit-learn.', 1, 15, 20, '2025-04-15', '2025-04-16');
+('Introdução a Robótica', 'Aprenda a construir robôs, usando arduino', 2, 10, 20, 'CANCELADO', '2025-04-15', '2025-04-16'),
+('Desenvolvimento Web com React', 'Crie aplicações web modernas utilizando a biblioteca React e todo seu ecossistema.', 3, 20, 25, 'APROVADO', '2025-05-01', '2025-05-03'),
+('Machine Learning para Iniciantes', 'Introdução aos conceitos fundamentais de aprendizado de máquina com Python e scikit-learn.', 1, 15, 20, 'PENDENTE', '2025-04-15', '2025-04-16');
