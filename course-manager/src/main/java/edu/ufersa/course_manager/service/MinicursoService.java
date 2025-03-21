@@ -2,6 +2,7 @@ package edu.ufersa.course_manager.service;
 
 
 import edu.ufersa.course_manager.model.Minicurso;
+import edu.ufersa.course_manager.model.Usuario;
 import edu.ufersa.course_manager.repository.MinicursoRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,25 +11,40 @@ import java.util.Optional;
 
 @Service
 public class MinicursoService {
-    private final MinicursoRepository repository;
+    private final MinicursoRepository minicursoRepository;
 
-    public MinicursoService(MinicursoRepository repository) {
-        this.repository = repository;
+    public MinicursoService(MinicursoRepository minicursoRepository) {
+        this.minicursoRepository = minicursoRepository;
     }
 
-    public List<Minicurso> listarTodos() {
-        return repository.findAll();
+    public List<Minicurso> listarMinicursos() {
+        return minicursoRepository.findAll();
     }
 
     public Optional<Minicurso> buscarPorId(Long id) {
-        return repository.findById(id);
+        return minicursoRepository.findById(id);
     }
 
-    public Minicurso salvar(Minicurso minicurso) {
-        return repository.save(minicurso);
+    public List<Minicurso> buscarPorInstrutor(Usuario instrutor) {
+        return minicursoRepository.findByInstrutor(instrutor);
     }
 
-    public void deletar(Long id) {
-        repository.deleteById(id);
+    public List<Minicurso> buscarPorTitulo(String titulo) {
+        return minicursoRepository.findByTituloContainingIgnoreCase(titulo);
+    }
+
+    public Minicurso cadastrarMinicurso(Minicurso minicurso) {
+        return minicursoRepository.save(minicurso);
+    }
+
+    public void deletarMinicursoPorId(Long id) {
+        minicursoRepository.deleteById(id);
+    }
+
+    public void incrementarNumeroDeInscritos(Minicurso minicurso) {
+        if (minicurso.getNumeroInscritos() < minicurso.getVagas()) {
+            minicurso.setNumeroInscritos(minicurso.getNumeroInscritos() + 1);
+            minicursoRepository.save(minicurso);
+        }
     }
 }

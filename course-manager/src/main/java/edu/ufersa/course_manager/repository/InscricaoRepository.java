@@ -14,4 +14,7 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Long> {
     List<Inscricao> findByMinicurso(Minicurso minicurso);
     int countByMinicurso(Minicurso minicurso);
     Optional<Object> findByUsuarioAndMinicurso(Usuario usuario, Minicurso minicurso);
+    boolean existsByMinicursoAndUsuario(Minicurso minicurso, Usuario usuario);
+    Optional<Inscricao> findByMinicursoAndUsuario(Minicurso minicurso, Usuario usuario);
+    List<Inscricao> findByUsuario(Usuario usuario);
 }

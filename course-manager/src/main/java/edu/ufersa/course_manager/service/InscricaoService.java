@@ -8,35 +8,61 @@ import edu.ufersa.course_manager.repository.InscricaoRepository;
 import edu.ufersa.course_manager.repository.MinicursoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.List;
+
 @Service
 public class InscricaoService {
-    private final InscricaoRepository repository;
+    private final InscricaoRepository inscricaoRepository;
     private final MinicursoRepository minicursoRepository;
+    private final MinicursoService minicursoService;
 
-    public InscricaoService(InscricaoRepository repository, MinicursoRepository minicursoRepository) {
-        this.repository = repository;
+    public InscricaoService(InscricaoRepository inscricaoRepository, MinicursoRepository minicursoRepository, MinicursoService minicursoService) {
+        this.inscricaoRepository = inscricaoRepository;
         this.minicursoRepository = minicursoRepository;
+        this.minicursoService = minicursoService;
+    }
+    public List<Inscricao> listarInscricoesPorMinicurso(Minicurso minicurso) {
+        return inscricaoRepository.findByMinicurso(minicurso);
     }
 
-    public String inscreverUsuario(Usuario usuario, Minicurso minicurso) {
+    public List<Inscricao> listarIncricoesPorUsuario(Usuario usuario) {
+        return inscricaoRepository.findByUsuario(usuario);
+    }
+
+    public boolean usuarioEstaInscrito(Minicurso minicurso, Usuario usuario) {
+        return inscricaoRepository.existsByMinicursoAndUsuario(minicurso, usuario);
+    }
+
+    public Inscricao inscreverUsuarioEmMinicurso(Usuario usuario, Minicurso minicurso) {
         if (minicurso.getStatus() != Minicurso.Status.APROVADO) {
-            return "Inscrição não permitida: minicurso encerrado.";
+            throw new IllegalStateException("Inscrição não permitida: minicurso não aprovado.");
         }
 
-        if (repository.findByUsuarioAndMinicurso(usuario, minicurso).isPresent()) {
-            return "Você já está inscrito neste minicurso.";
+        if (minicurso.getNumeroInscritos() >= minicurso.getVagas()) {
+            throw new IllegalStateException("O curso não possui vagas disponíveis.");
         }
 
-        int inscritos = repository.countByMinicurso(minicurso);
-        if (inscritos >= minicurso.getVagas()) {
-            return "Não há vagas disponíveis.";
+        if (usuarioEstaInscrito(minicurso, usuario)) {
+            throw new IllegalStateException("Você já está inscrito neste minicurso.");
         }
 
         Inscricao inscricao = new Inscricao();
-        inscricao.setInscrito(usuario);
+        inscricao.setUsuario(usuario);
         inscricao.setMinicurso(minicurso);
 
-        repository.save(inscricao);
-        return "Inscrição realizada com sucesso!";
+        minicursoService.incrementarNumeroDeInscritos(minicurso);
+        return inscricaoRepository.save(inscricao);
+    }
+
+    public void cancelarInscricao(Minicurso minicurso, Usuario usuario) {
+        Optional<Inscricao> inscricao = inscricaoRepository.findByMinicursoAndUsuario(minicurso, usuario);
+
+        if (inscricao.isPresent()) {
+            inscricaoRepository.delete(inscricao.get());
+
+            minicurso.setNumeroInscritos(minicurso.getNumeroInscritos() - 1);
+            minicursoService.cadastrarMinicurso(minicurso);
+        }
     }
 }

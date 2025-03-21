@@ -3,27 +3,40 @@ package edu.ufersa.course_manager.service;
 
 import edu.ufersa.course_manager.model.Usuario;
 import edu.ufersa.course_manager.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UsuarioService {
-    private final UsuarioRepository repository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder) {
-        this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public Usuario salvar(Usuario usuario) {
+
+    public Usuario registrarUsuario(Usuario usuario) {
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        return repository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
-    public Optional<Usuario> buscarPorUsuario(String usuario) {
-        return repository.findByUsuario(usuario);
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+    public Optional<Usuario> buscarPorUsername(String username) {
+        return usuarioRepository.findByUsername(username);
+    }
+
+    public Usuario atualizarUsuario(Usuario Usuario) {
+        return usuarioRepository.save(Usuario);
+    }
+
+    public boolean existeUsername(String username) {
+        return usuarioRepository.existsByUsername(username);
     }
 }
