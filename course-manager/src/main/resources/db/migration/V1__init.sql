@@ -4,7 +4,7 @@ CREATE TABLE usuario (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
-    senha VARCHAR(50) NOT NULL,
+    senha VARCHAR(100) NOT NULL,
     tipo VARCHAR(20) NOT NULL
 );
 
@@ -37,15 +37,15 @@ CREATE TABLE inscricao (
 
 -- Inserindo Admin User
 INSERT INTO usuario (nome, email, username, senha, tipo)
-VALUES ('admin', 'admin@gmail.com', 'Administrator', 'admin123', 'ADMIN');
+VALUES ('admin', 'admin@gmail.com', 'admin', '$2a$10$DGElVstoIBDT1ct3CXOEoOckB8gcYrszChtCXkk8J56oCguy8NzDC', 'ADMIN');
 
 -- Inserindo dados de exemplo
 INSERT INTO usuario (nome, email, username, senha, tipo)
 VALUES
-('Gustavo Alves Mendes', 'gustavoamendes@hotmail.com', 'gustavo_mendes', 'gustavo123', 'ALUNO'),
-('Wiliane da Silva Lima', 'wilyanelima17@outlook.com', 'wilianelima', 'wiliane123', 'ALUNO'),
-('Ruan Pabllo Barbosa Claudino', 'ruanpabllobc@gmail.com', 'ruanpabllobc', 'ruanpabllo123', 'ALUNO'),
-('Huliane Medeiros da Silva', 'huliane@ufersa.edu.br', 'huliane', 'huliane123', 'PROFESSOR');
+('Gustavo Alves Mendes', 'gustavoamendes@hotmail.com', 'gustavo_mendes', '$2a$10$V6NFl3it35D2LYyT6vnFde5vYvqUJ54YptbIcGfILrktAU93a3hxO', 'ALUNO'),
+('Wiliane da Silva Lima', 'wilyanelima17@outlook.com', 'wilianelima', '$2a$10$xwr4tXeT06aDlf6H1/26redjdGsZJHT91DbiAbeeSEyVii1Az8IJ6', 'ALUNO'),
+('Ruan Pabllo Barbosa Claudino', 'ruanpabllobc@gmail.com', 'ruanpabllobc', '$2a$10$SsmR8iGrxe5AvpNZhzzB7uOIWdqw5zG5wk7bx2OhUakvb2jpk46d2', 'ALUNO'),
+('Huliane Medeiros da Silva', 'huliane@ufersa.edu.br', 'huliane', '$2a$10$PEl0dTKvc8iX1.SRxGayKOh0BIarU7.u5FbS1eV/JwC2y806rLvxi', 'PROFESSOR');
 
 INSERT INTO minicurso (titulo, descricao, instrutor_id, carga_horaria, vagas, status, data_inicio, data_fim)
 VALUES

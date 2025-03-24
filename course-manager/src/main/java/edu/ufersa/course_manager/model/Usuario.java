@@ -1,5 +1,6 @@
 package edu.ufersa.course_manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,12 +8,12 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "usuario")
-@Data
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,11 +41,27 @@ public class Usuario implements UserDetails {
     private Tipo tipo;
 
     @OneToMany(mappedBy = "instrutor", cascade = CascadeType.ALL)
-    private List<Minicurso> minicursosCriados;
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Minicurso> minicursosCriados = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Inscricao> inscricoesEmMinicursos = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(tipo);
+    }
+
+    public enum Tipo implements GrantedAuthority {
+        ADMIN, PROFESSOR, ALUNO;
+
+        @Override
+        public String getAuthority() {
+            return name();
+        }
     }
 
     @Override
@@ -57,13 +74,35 @@ public class Usuario implements UserDetails {
         return username;
     }
 
-    public enum Tipo implements GrantedAuthority {
-        ADMIN, PROFESSOR, ALUNO;
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
 
-        @Override
-        public String getAuthority() {
-            return name();
-        }
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", tipo=" + tipo +
+                '}';
     }
 }
 
