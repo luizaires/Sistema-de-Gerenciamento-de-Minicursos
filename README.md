@@ -10,11 +10,12 @@
 * [4. Arquitetura do Sistema](#4-arquitetura-do-sistema)
 * [5. Stack Tecnológica](#5-stack-tecnologica)
 * [6. Possíveis Melhorias](#6-possiveis-melhorias)
-* [7. Conclusão](#7-conclusao)
+* [7. Links importantes](#7-links-importantes)
 
 # Modelagem do Sistema
 * [1. Diagrama de Caso de Uso](#1-diagrama-de-caso-de-uso)
 * [2. Diagrama de Classes](#2-diagrama-de-classes)
+
 
 <a name = "1-resumo-do-projeto"></a>
 # Documentação do Projeto – Sistema de Gerenciamento de Minicursos
@@ -37,7 +38,7 @@ O MVP foca em um CRUD básico, garantindo requisitos essenciais, sem adicionar c
 
 ✅ RF-02 – O sistema deve permitir autenticação dos usuários via matrícula e senha.
 
-✅ RF-03 – O sistema deve perimitir que os usuários visualizem seus próprios dados e atualizem algumas informações (exceto seu papel no sistema).
+✅ RF-03 – O sistema deve permitir que os usuários visualizem seus próprios dados e atualizem algumas informações (exceto seu papel no sistema).
 
 #### 2.1.2 Gestão de Minicursos
 ✅ RF-04 – O sistema deve permitir a criação de minicuros pelos usuários. O minicurso de um Instrutor fica pendente de aprovação ou rejeição.
@@ -140,15 +141,7 @@ O projeto segue uma abordagem de Arquitetura em Camadas, separando responsabilid
 * **Camada Repository:** Interage com o banco de dados via JPA.
 * **Camada Security:** Garante autenticação e autorização via Spring Security.
 
-
-### 4.2 Padrões Utilizados
-* **DTOs –** Separação entre entidade e dados transferidos.
-
-* **Service Layer –** Regras de negócio centralizadas.
-
-* **Repository Pattern –** Abstração do acesso ao banco.
-
-* **Security Configuration –** Controle de permissões via Roles.
+![Diagrama](imagens/Diagrama.png)
 
 [voltar ao topo](#sumario)
 
@@ -171,8 +164,7 @@ O projeto segue uma abordagem de Arquitetura em Camadas, separando responsabilid
 | Flyway | Controle de versão do banco |
 | Thymeleaf | Renderização de páginas |
 | JUnit + Mockito | Testes unitários e integração |
-| SonarQube | Análise de qualidade do código |
-|Prometheus + Grafana | Monitoramento de métricas da API |
+
 
 
 [voltar ao topo](#sumario)
@@ -188,9 +180,26 @@ O projeto segue uma abordagem de Arquitetura em Camadas, separando responsabilid
 
 [voltar ao topo](#sumario)
 
-<a name = "7-conclusao"></a>
-## 7. Conclusão
-A implementação do MVP foca na simplicidade, garantindo um CRUD funcional e seguindo boas práticas. O projeto já inclui segurança, qualidade de código e monitoramento, permitindo escalabilidade futura sem reescrita significativa.
+<a name = "7-links-importantes"></a>
+## 7. Links Importantes
+### 7.1 Documentação da API
+Para visualizar endpoints da API, siga os passos:
+* Clone o repositório do projeto na sua máquina;
+* Abra o projeto usando uma IDE, de preferência o intelliJ IDEA. Obs: o prrojeto usa jdk 21
+* Depois da aplicação iniciar (pode demorar 30s ou mais). Abra o link para acessar a documentação: http://localhost:8080/swagger-ui.html
+* Use as credenciais **username =** huliane, **senha =** huliane123
+* Clique no endpoint que deseja executar e aperte **Try out** e depois o **Execute**.
+Lembre-se de informar os paramêtros requeridos no corpo da requisição
+
+### 7.2 Banco de dados H2
+O banco de dados pode ser acessado pelo link: http://localhost/h2-console/.
+
+### 7.3 Taiga
+
+Clique em **New Project** e o Importe arquivo do link no taiga:
+
+https://drive.google.com/file/d/115tVTSdGCywRcSEZmKsFui4qyRBhIREz/view?usp=drive_link
+
 
 <a name = "1-diagrama-de-caso-de-uso"></a>
 # Modelagem do Sistema
@@ -230,56 +239,9 @@ A implementação do MVP foca na simplicidade, garantindo um CRUD funcional e se
 
 <a name = "2-diagrama-de-classes"></a>
 ## 2. Diagrama de Classes
-Agora, vamos estruturar a modelagem das entidades e seus relacionamentos.
+Segue a modelagem das entidades e seus relacionamentos.
 
-## 2.1 Classes Principais e Atributos
-### 2.1.1 Usuário
-Representa um usuário do sistema, podendo ser um Aluno ou Professor.
-
-**Atributos:**
-
-* Matrícula: Long
-* nome: String
-* email: String
-* senha: String
-* papel: Enum (ALUNO, PROFESSOR)
-
-**Relacionamentos:**
-*Um Usuário pode criar vários Minicursos (1:N)
-*Um Usuário pode se inscrever em vários Minicursos (N:M)
-
-### 2.1.2 Minicurso
-Representa um minicurso ofertado por um Instrutor (Professor ou Aluno). Alunos podem se inscrever se não ultrapassar a capacidade ou a data limite.
-
-**Atributos:**
-
-* id: Long
-* titulo: String
-* descricao: String
-* instrutor: User (o criador do minicurso)
-* capacidadeMaxima: Integer
-* * dataLimiteInscricao: LocalDateTime
-* status: Enum (PENDENTE, APROVADO, REJEITADO)
-
-**Relacionamentos:**
-
-* Um Minicurso tem um Instrutor (N:1 com User)
-* Um Minicurso pode ter vários Alunos Inscritos (N:M com User)
-
-### 2.1.3 Inscrição
-Representa a relação entre um Aluno e um Minicurso.
-
-
-**Atributos:**
-
-* id: Long
-* aluno: User
-* minicurso: MiniCurso
-* dataInscricao: LocalDateTime
-
-**Relacionamentos:**
-
-Um Aluno pode se inscrever em vários Minicursos (N:M com MiniCurso)
+![Diagrama_de_Classe](imagens/Diagrama_de_Classe.png)
 
 [voltar ao topo](#sumario)
 
