@@ -49,6 +49,6 @@ VALUES
 
 INSERT INTO minicurso (titulo, descricao, instrutor_id, carga_horaria, vagas, status, data_inicio, data_fim)
 VALUES
-('Introdução a Robótica', 'Aprenda a construir robôs, usando arduino', 2, 10, 20, 'CANCELADO', '2025-04-15', '2025-04-16'),
-('Desenvolvimento Web com React', 'Crie aplicações web modernas utilizando a biblioteca React e todo seu ecossistema.', 3, 20, 25, 'APROVADO', '2025-05-01', '2025-05-03'),
-('Machine Learning para Iniciantes', 'Introdução aos conceitos fundamentais de aprendizado de máquina com Python e scikit-learn.', 1, 15, 20, 'PENDENTE', '2025-04-15', '2025-04-16');
+('Introdução a Robótica', 'Aprenda a construir robôs, usando arduino', 3, 10, 20, 'CANCELADO', '2025-04-15', '2025-04-16'),
+('Desenvolvimento Web com React', 'Crie aplicações web modernas utilizando a biblioteca React e todo seu ecossistema.', 4, 20, 25, 'APROVADO', '2025-05-01', '2025-05-03'),
+('Machine Learning para Iniciantes', 'Introdução aos conceitos fundamentais de aprendizado de máquina com Python e scikit-learn.', 2, 15, 20, 'PENDENTE', '2025-04-15', '2025-04-16');
