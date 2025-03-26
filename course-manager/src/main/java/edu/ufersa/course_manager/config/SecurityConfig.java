@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**", "/usuarios/registro", "/usuarios/atualizar/**").permitAll()
                         .requestMatchers("/minicursos", "/minicursos/detalhar/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

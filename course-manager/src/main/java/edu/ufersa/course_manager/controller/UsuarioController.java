@@ -2,6 +2,7 @@ package edu.ufersa.course_manager.controller;
 
 import edu.ufersa.course_manager.model.Usuario;
 import edu.ufersa.course_manager.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Operation(summary = "Listar usuários")
     @GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios(){
         List<Usuario> usuarios = usuarioService.listarUsuarios();
@@ -26,6 +28,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
+    @Operation(summary = "Realizar registro de usuário")
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario){
         try{
@@ -36,6 +39,7 @@ public class UsuarioController {
 
     }
 
+    @Operation(summary = "Exibir os dadoes de usuário autenticado")
     @GetMapping("/meus-dados")
     public ResponseEntity<Usuario> buscarMeusDados(@AuthenticationPrincipal UserDetails userDetails){
         return usuarioService.buscarPorUsername(userDetails.getUsername())
@@ -43,6 +47,7 @@ public class UsuarioController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Atualizar os dados de um usuário desde que esteja autenticado")
     @PutMapping("/atualizar/{username}")
     public ResponseEntity<String> atualizarMeusDados(@PathVariable("username") String username, @RequestBody UsuarioDto usuarioAtualizado){
 
